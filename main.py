@@ -55,5 +55,5 @@ async def delete_file():
         raise HTTPException(status_code=500, detail=f"File deletion failed: {str(e)}")
 
 if __name__ == '__main__':
-    uvicorn.run(app)
+    uvicorn.run(app, host="meetinganalyzer.azurewebsites.net", port=8000)
 
