@@ -3,6 +3,9 @@
 *.pyc
 __pycache__/
 
+# deployment
+.deployment
+
 # Virtual Environment
 venv/
 env/
