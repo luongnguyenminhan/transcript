@@ -1,15 +1,25 @@
-# syntax=docker/dockerfile:1
+# Choose our version of Python
+FROM python:3.10
 
-FROM python:3.11
+# Setup the environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV GOOGLE_API_KEY AIzaSyCIZaszGmddCctOjWWiMLh6DUW3JJu-9gY
 
+
+# Set up a working directory
 WORKDIR /code
 
-COPY requirements.txt .
+# Copy just the requirements into the working directory so it gets cached by itself
+COPY ./requirements.txt /code/requirements.txt
 
-RUN pip install --no-cache-dir --upgrade -r requirements.txt
+# Install the dependencies from the requirements file
+RUN python3 -m venv .venv
+RUN . .venv/bin/activate
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-COPY . .
+# Copy the code into the working directory
+COPY ./app /code/app
 
-EXPOSE 8000
-
-CMD ["gunicorn", "main:app"]
+# Tell uvicorn to start spin up our code, which will be running inside the container now
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
