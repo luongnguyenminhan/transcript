@@ -6,11 +6,11 @@ import os
 app = FastAPI()
 agent = MeetingAnalyzer()
 
-@app.get("/")
+@app.get("/api/")
 async def read_root():
     return {"message": "Hello, World"}
 
-@app.post("/uploadfile/")
+@app.post("/api/uploadfile/")
 async def upload_file(file: UploadFile = File(...)):
     try:
         await delete_file()  # Ensure previous file is deleted
@@ -26,7 +26,7 @@ async def upload_file(file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"File upload failed: {str(e)}")
 
-@app.get("/downloadfile/")
+@app.get("/api/downloadfile/")
 async def download_file():
     file_location = agent.get_output_path()
     
@@ -39,7 +39,7 @@ async def download_file():
         filename='Meeting_note.docx'
     )
 
-@app.delete("/deletefile/")
+@app.delete("/api/deletefile/")
 async def delete_file():
     file_location = agent.get_output_path()
 
