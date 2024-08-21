@@ -6,7 +6,7 @@ import os, uvicorn
 app = FastAPI()
 agent = MeetingAnalyzer()
 
-@app.get("/api/")
+@app.get("/")
 async def read_root():
     return {"message": "Hello, World"}
 
@@ -55,5 +55,5 @@ async def delete_file():
         raise HTTPException(status_code=500, detail=f"File deletion failed: {str(e)}")
 
 if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=8000)
+    uvicorn.run(app)
 
